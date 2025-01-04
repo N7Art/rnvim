@@ -26,12 +26,16 @@ M.special = {
   [' '] = { key = 'Space', isUpper = false },
   ['`'] = { key = '`', isUpper = false },
   ['<CR>'] = { key = 'Return', isUpper = false },
+
+
+  --added
 ['<XF86AUDIORAISEVOLUME>'] = {key = 'XF86AudioRaiseVolume', isUpper = false},
 ['<XF86AUDIOLOWERVOLUME>'] = {key = 'XF86AudioLowerVolume', isUpper = false},
 ['<XF86MONBRIGHTNESSUP>'] = {key = 'XF86MonBrightnessUp', isUpper = false},
 ['<XF86MONBRIGHTNESSDOWN>'] = {key = 'XF86MonBrightnessDown', isUpper = false},
-
-
+["<BTN_LEFT>"] = {key= "BTN_LEFT", isUpper = false},
+["<BTN_RIGHT>"] = {key = "BTN_RIGHT", isUpper = false},
+["<BTN_MIDDLE>"] = {key = "BTN_MIDDLE", isUpper = false},
 
 
 -- repeated but with shift

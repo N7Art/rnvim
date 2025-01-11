@@ -26,4 +26,5 @@ M.MapPointer = function (mode, configExp, cmd)
   generalMapFunction("map-pointer", mode, configExp, cmd)
 end
 
+
 return M

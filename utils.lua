@@ -1,6 +1,7 @@
 local sh = os.execute
 local M = {}
 
+local rnvim = require("rnvim")
 --[[
 
 leader = Mods.super
@@ -18,7 +19,7 @@ global leader is reqired
 
 M.modeValidate = function(str)
   if str == 'n' then
-   return Modes.normal 
+   return rnvim.Modes.normal
   end
 end
 -- translates expression to string

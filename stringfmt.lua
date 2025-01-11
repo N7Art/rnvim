@@ -1,4 +1,6 @@
 local M = {}
+local rnvim = require("rnvim")
+
 M.special = {
   --shif + number
   ['!'] = { key = '1', isUpper = true },
@@ -54,14 +56,14 @@ M.special = {
 }
 
 M.modsTable = {
-  ['M'] = Mods.alt,
-  ['C'] = Mods.ctrl,
-  ['S'] = Mods.shift,
-  ['<SUPER>'] = Mods.super,
-  ['<M3>'] = Mods.mod3,
-  ['<M5>'] = Mods.mod5,
-  ['<LEADER>'] = Leader,
-  ['<SHIFT>'] = Mods.shift,
+  ['M'] = rnvim.Mods.alt,
+  ['C'] = rnvim.Mods.ctrl,
+  ['S'] = rnvim.Mods.shift,
+  ['<SUPER>'] = rnvim.Mods.super,
+  ['<M3>'] = rnvim.Mods.mod3,
+  ['<M5>'] = rnvim.Mods.mod5,
+  ['<LEADER>'] = rnvim.getLeader(),
+  ['<SHIFT>'] = rnvim.Mods.shift,
 
 }
 M.stringValidate = function(str)
@@ -121,7 +123,7 @@ M.evaluateConfigExpr = function(str)
   str = M.stringValidate(str)
   -- modifire index strart/end
 
-  local res = { mods = { Mods.none }, key = '' }
+  local res = { mods = { rnvim.Mods.none }, key = '' }
 
   --                                 "<C-a>"
   --                                 "^...^"
@@ -135,7 +137,7 @@ M.evaluateConfigExpr = function(str)
     if tokenSpecialKey then
       res.key = tokenSpecialKey.key
       if tokenSpecialKey.isUpper then
-        table.insert(res.mods, Mods.shift)
+        table.insert(res.mods, rnvim.Mods.shift)
       end
     elseif modToken then
       table.insert(res.mods, modToken)
@@ -155,7 +157,7 @@ M.evaluateConfigExpr = function(str)
           local validKey = M.keyValidate(ch)
           res.key = validKey.key
           if validKey.isUpper then
-            table.insert(res.mods, Mods.shift)
+            table.insert(res.mods, rnvim.Mods.shift)
           end
         else
           -- handle M3,M5
@@ -189,7 +191,7 @@ M.evaluateConfigExpr = function(str)
       local validKey = M.keyValidate(ch)
       res.key = validKey.key
       if validKey.isUpper then
-        table.insert(res.mods, Mods.shift)
+        table.insert(res.mods, rnvim.Mods.shift)
       end
     end
     i = i + 1

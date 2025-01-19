@@ -38,6 +38,7 @@ M.special = {
 ["<BTN_LEFT>"] = {key= "BTN_LEFT", isUpper = false},
 ["<BTN_RIGHT>"] = {key = "BTN_RIGHT", isUpper = false},
 ["<BTN_MIDDLE>"] = {key = "BTN_MIDDLE", isUpper = false},
+["<PRINT>"] = {key = "Print", isUpper = false},
 
 
 -- repeated but with shift

@@ -1,11 +1,12 @@
 #!/usr/bin/env lua
 
-package.path = package.path .. ";" .. os.getenv("HOME") .. "/.config/river/?.lua"
-
+if not package.loaded["rnvim"] then
+	package.path = package.path .. ";" .. os.getenv("HOME") .. "/.config/river/rnvim/rnvim.lua"
+end
 local sh = os.execute
-local leader = require("rnvim").getLeader()
-
 while true do
-	print(leader)
+	local rnvim = require("rnvim")
+	local mode = rnvim.getCurMode()
+	print(mode)
 	sh("sleep 1")
 end

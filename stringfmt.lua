@@ -1,71 +1,69 @@
 local M = {}
 local rnvim = require("rnvim")
 
+-- dictionary with nonletter or nonenumber keys
+-- keys should be caps
 M.special = {
   --shif + number
-  ['!'] = { key = '1', isUpper = true },
-  ['@'] = { key = '2', isUpper = true },
-  ['#'] = { key = '3', isUpper = true },
-  ['$'] = { key = '4', isUpper = true },
-  ['%'] = { key = '5', isUpper = true },
-  ['^'] = { key = '6', isUpper = true },
-  ['&'] = { key = '7', isUpper = true },
-  ['*'] = { key = '8', isUpper = true },
-  ['('] = { key = '9', isUpper = true },
-  [')'] = { key = '0', isUpper = true },
+  ["!"] = { key = "1", isUpper = true },
+  ["@"] = { key = "2", isUpper = true },
+  ["#"] = { key = "3", isUpper = true },
+  ["$"] = { key = "4", isUpper = true },
+  ["%"] = { key = "5", isUpper = true },
+  ["^"] = { key = "6", isUpper = true },
+  ["&"] = { key = "7", isUpper = true },
+  ["*"] = { key = "8", isUpper = true },
+  ["("] = { key = "9", isUpper = true },
+  [")"] = { key = "0", isUpper = true },
 
   -- uniques
-  ['-'] = { key = 'minus', isUpper = false },
-  ['='] = { key = 'equal', isUpper = false },
-  ['['] = { key = '[', isUpper = false },
-  [']'] = { key = ']', isUpper = false },
-  ['\\'] = { key = 'backslash', isUpper = false },
-  [';'] = { key = 'semicolon', isUpper = false },
-  ['\''] = { key = 'quoteright', isUpper = false },
-  [','] = { key = 'Comma', isUpper = false },
-  ['.'] = { key = 'Period', isUpper = false },
-  ['/'] = { key = 'slash', isUpper = false },
-  [' '] = { key = 'Space', isUpper = false },
-  ['`'] = { key = '`', isUpper = false },
-  ['<CR>'] = { key = 'Return', isUpper = false },
+  ["-"] = { key = "minus", isUpper = false },
+  ["="] = { key = "equal", isUpper = false },
+  ["["] = { key = "[", isUpper = false },
+  ["]"] = { key = "]", isUpper = false },
+  ["\\"] = { key = "backslash", isUpper = false },
+  [";"] = { key = "semicolon", isUpper = false },
+  ["'"] = { key = "quoteright", isUpper = false },
+  [","] = { key = "Comma", isUpper = false },
+  ["."] = { key = "Period", isUpper = false },
+  ["/"] = { key = "slash", isUpper = false },
+  [" "] = { key = "Space", isUpper = false },
+  ["`"] = { key = "`", isUpper = false },
+  ["<CR>"] = { key = "Return", isUpper = false },
 
+  -- repeated but with shift
+  ["_"] = { key = "minus", isUpper = true },
+  ["+"] = { key = "equal", isUpper = true },
+  ["|"] = { key = "backslash", isUpper = true },
+  ["{"] = { key = "[", isUpper = true },
+  ["}"] = { key = "]", isUpper = true },
+  [":"] = { key = "semicolon", isUpper = true },
+  ['"'] = { key = "quoteright", isUpper = true },
+  ["?"] = { key = "slash", isUpper = true },
+  [">"] = { key = "colon", isUpper = true },
+  ["<"] = { key = "semicolon", isUpper = true },
+  ["~"] = { key = "`", isUpper = true },
 
-  --added
-['<XF86AUDIORAISEVOLUME>'] = {key = 'XF86AudioRaiseVolume', isUpper = false},
-['<XF86AUDIOLOWERVOLUME>'] = {key = 'XF86AudioLowerVolume', isUpper = false},
-['<XF86MONBRIGHTNESSUP>'] = {key = 'XF86MonBrightnessUp', isUpper = false},
-['<XF86MONBRIGHTNESSDOWN>'] = {key = 'XF86MonBrightnessDown', isUpper = false},
-["<BTN_LEFT>"] = {key= "BTN_LEFT", isUpper = false},
-["<BTN_RIGHT>"] = {key = "BTN_RIGHT", isUpper = false},
-["<BTN_MIDDLE>"] = {key = "BTN_MIDDLE", isUpper = false},
-["<PRINT>"] = {key = "Print", isUpper = false},
+  ["<XF86AUDIORAISEVOLUME>"] = { key = "XF86AudioRaiseVolume", isUpper = false },
+  ["<XF86AUDIOLOWERVOLUME>"] = { key = "XF86AudioLowerVolume", isUpper = false },
+  ["<XF86MONBRIGHTNESSUP>"] = { key = "XF86MonBrightnessUp", isUpper = false },
+  ["<XF86MONBRIGHTNESSDOWN>"] = { key = "XF86MonBrightnessDown", isUpper = false },
+  ["<BTN_LEFT>"] = { key = "BTN_LEFT", isUpper = false },
+  ["<BTN_RIGHT>"] = { key = "BTN_RIGHT", isUpper = false },
+  ["<BTN_MIDDLE>"] = { key = "BTN_MIDDLE", isUpper = false },
+  ["<PRINT>"] = { key = "Print", isUpper = false },
 
-
--- repeated but with shift
-
-['_'] = { key = 'minus', isUpper = true },
-  ['+'] = { key = 'equal', isUpper = true },
-  ['|'] = { key = 'backslash', isUpper = true },
-  ['{'] = { key ='[', isUpper = true },
-  ['}'] = { key = ']', isUpper = true },
-  [':'] = { key = 'semicolon', isUpper = true },
-  ['\"'] = { key = "quoteright", isUpper = true },
-  ['?'] = { key = 'slash', isUpper = true },
-  ['>'] = { key = 'colon', isUpper = true },
-  ['<'] = { key = 'semicolon', isUpper = true },
-  ['~'] = { key = '`', isUpper = true },
 }
 
-M.modsTable = {
-  ['M'] = rnvim.Mods.alt,
-  ['C'] = rnvim.Mods.ctrl,
-  ['S'] = rnvim.Mods.shift,
-  ['<SUPER>'] = rnvim.Mods.super,
-  ['<M3>'] = rnvim.Mods.mod3,
-  ['<M5>'] = rnvim.Mods.mod5,
-  ['<LEADER>'] = rnvim.getLeader(),
-  ['<SHIFT>'] = rnvim.Mods.shift,
-
+M.modsDict = {
+  ["M"] = rnvim.Mods.alt,
+  ["C"] = rnvim.Mods.ctrl,
+  ["S"] = rnvim.Mods.shift,
+  ["<SUPER>"] = rnvim.Mods.super,
+  ["<M3>"] = rnvim.Mods.mod3,
+  ["<M5>"] = rnvim.Mods.mod5,
+  ["<LEADER>"] = rnvim.getLeader(),
+  ["<SHIFT>"] = rnvim.Mods.shift,
 }
 M.stringValidate = function(str)
   if type(str) == "nil" then
@@ -74,22 +72,20 @@ M.stringValidate = function(str)
   if type(str) == "function" then
     return "error: function type expresion"
   end
-
   if type(str) == "number" then
     str = tostring(str)
   end
 
-
   if type(str) == "table" then
     -- for catinating when table whith keys
     if #str == 0 then
-      local s = ''
+      local s = ""
       for _, v in pairs(str) do
         s = s .. v
       end
       str = s
     else
-      str = table.concat(str, '')
+      str = table.concat(str, "")
     end
   end
 
@@ -98,6 +94,7 @@ M.stringValidate = function(str)
   end
   return str
 end
+
 M.keyValidate = function(key)
   local special = M.special
   local checkUpper = function()
@@ -120,11 +117,12 @@ M.keyValidate = function(key)
   return { key = key, isUpper = isUpper }
 end
 
+--parsing
 M.evaluateConfigExpr = function(str)
   str = M.stringValidate(str)
-  -- modifire index strart/end
+  -- modifier index strart/end
 
-  local res = { mods = { rnvim.Mods.none }, key = '' }
+  local res = { mods = { rnvim.Mods.none }, key = "" }
 
   --                                 "<C-a>"
   --                                 "^...^"
@@ -133,7 +131,7 @@ M.evaluateConfigExpr = function(str)
 
     local token = str:sub(b_start, b_end)
     local tokenSpecialKey = M.special[string.upper(token)]
-    local modToken = M.modsTable[string.upper(token)]
+    local modToken = M.modsDict[string.upper(token)]
 
     if tokenSpecialKey then
       res.key = tokenSpecialKey.key
@@ -152,7 +150,7 @@ M.evaluateConfigExpr = function(str)
         local ch = token:sub(i, i)
         local chNext = token:sub(i + 1, i + 1)
 
-        if ch == '-' then
+        if ch == "-" then
           i = i + 1
         elseif i == stop then
           local validKey = M.keyValidate(ch)
@@ -162,13 +160,13 @@ M.evaluateConfigExpr = function(str)
           end
         else
           -- handle M3,M5
-          if ch == "M" and chNext ~= '-' then
+          if ch == "M" and chNext ~= "-" then
             -- make ch to table format
-            ch = '<' .. ch .. chNext .. '>'
+            ch = "<" .. ch .. chNext .. ">"
             i = i + 2
           end
 
-          local chInMods = M.modsTable[ch]
+          local chInMods = M.modsDict[ch]
           if chInMods then
             table.insert(res.mods, chInMods)
           end
@@ -177,13 +175,13 @@ M.evaluateConfigExpr = function(str)
     end
   end
   --read by char
-  local i = 1;
+  local i = 1
 
-  while (i <= #str) do
+  while i <= #str do
     local ch = str:sub(i, i)
 
-    if ch == '<' and i ~= #str then
-      local block_end = string.find(str, '>', i)
+    if ch == "<" and i ~= #str then
+      local block_end = string.find(str, ">", i)
       if block_end then
         handle_block(i, block_end)
         i = block_end
@@ -199,4 +197,5 @@ M.evaluateConfigExpr = function(str)
   end
   return res
 end
+
 return M

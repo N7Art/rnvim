@@ -1,16 +1,28 @@
 package.path = package.path .. ";" .. os.getenv("HOME") .. "/.config/river/rnvim/?.lua"
-Modes = { normal = 'normal' }
-Mods = {
-  super = "Super",
-  alt = "Alt",
-  ctrl = "Control",
-  shift = "Shift",
-  mod3 = "Mod3",
-  mod5 = "Mod5",
-  none = "None"
+local M = {}
+M.Modes = { normal = "normal" }
+M.Mods = {
+	super = "Super",
+	alt = "Alt",
+	ctrl = "Control",
+	shift = "Shift",
+	mod3 = "Mod3",
+	mod5 = "Mod5",
+	none = "None",
 }
 
-Leader = Mods.super
+local leader = M.Mods.super
 
+M.setLeader = function(mod)
+	if type(mod) ~= M.Mods then
+		print("err")
+		return
+	end
+	leader = mod
+end
 
- require("riverctl")
+M.getLeader = function()
+	return leader
+end
+
+return M

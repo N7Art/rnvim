@@ -1,33 +1,20 @@
+#!/usr/bin/env lua
 package.path = package.path .. ";" .. os.getenv("HOME") .. "/.config/river/rnvim/?.lua"
-require "rnvim"
-local fmt = require("stringfmt")
-local ut = require("utils")
+local rnvim = require "rnvim"
 
-local fn = ut.getConfigStr
-local function test(name, data)
-  if type(data) == "nil" then
-    data = name
-  end
-  local res = fn(data)
-print(res)
-end
+local ctl = require("riverctl").ctl
+local map = require("riverctl").Map
+local close = require("riverctl").close
+local mapPointer = require("riverctl").MapPointer
+local mapSwitch = require("riverctl").MapSwitch
+
+rnvim.setLeader(rnvim.Mods.super)
 
 
+os.execute("riverctl spawn \"notify-send 'os.execute -> hehe'\"")
 
-test("as")
-test("<C-a>")
-test("<C-A>")
-test("<")
-test("<CR>a<CR>")
-test("<LEADER>a")
-test("<leader>A")
-test("<leader><CR>")
-print()
-test("<leader>M")
-test(2)
-test("<leader> ")
-test("<M3-a>")
-test("<M5-a>")
-test("<leader><C-M-M3-M5-A>")
-test("<leader><S-C->")
-test("<XF86MonBrightnessDown>")
+ctl("spawn", "notify-send 'ctl -> hehe'")
+--
+
+mapSwitch("n", "lid", "close", "spawn 'swaylock -f -c 000000'")
+

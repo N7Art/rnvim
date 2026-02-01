@@ -1,12 +1,31 @@
 local M = {}
 
 local utils = require("utils")
+local sh = utils.sh
+-- "riverctl [options] command [command specific arguments]"
+local ctl = function(command, args)
+	if type(args) ~= "table" and type(args) ~= "string" then
+		return 1
+	end
+	if type(args) == "string" then
+		sh("riverctl " .. command .. " " .. args)
+		print("TEST:ctl: riverctl " .. command .. " '" .. args .. "'")
+	else
+		local res = " "
+		for i = 1, #args do
+			res = res .. args[i] .. " "
+		end
+		sh("riverctl " .. command .. res)
+	end
+end
+
+M.ctl = ctl
 
 -- actions
 
 -- Close the focused view.
 M.close = function()
-	utils.ctl("close")
+	ctl("close")
 	--return "close"
 end
 
@@ -35,13 +54,13 @@ local generalMapFunction = function(mapcmd, mode, configExp, cmd)
 		--TODO: make modes overlapping, not overriding
 		for i = 1, #mode do
 			local m = utils.modeValidate(mode[i])
-			utils.ctl(mapcmd, { m, configStr .. " " .. cmd })
+			ctl(mapcmd, { m, configStr .. " " .. cmd })
 		end
 	elseif type(mode) == "string" then
 		local m = utils.modeValidate(mode)
-		utils.ctl(mapcmd, { m, configStr .. " " .. cmd })
+		ctl(mapcmd, { m, configStr .. " " .. cmd })
 	end
-		local m = utils.modeValidate(mode)
+	local m = utils.modeValidate(mode)
 end
 
 M.Map = function(mode, configExp, cmd)
@@ -89,8 +108,8 @@ M.MapSwitch = function(mode, lidOrTablet, state, cmd)
 		return
 	end
 
-	cmd =  lidOrTablet .. " " .. state .. " " .. cmd
-	generalMapFunction("map-switch", mode, '', cmd)
+	cmd = lidOrTablet .. " " .. state .. " " .. cmd
+	generalMapFunction("map-switch", mode, "", cmd)
 end
 
 return M

@@ -1,6 +1,7 @@
 local sh = os.execute
 local M = {}
 
+M.sh = sh
 local rnvim = require("rnvim")
 --[[
 
@@ -43,20 +44,5 @@ M.getConfigStr = function(configExp)
 	return out
 end
 
--- "riverctl [options] command [command specific arguments]"
-M.ctl = function(command, args)
-	if type(args) ~= "table" and type(args) ~= "string" then
-		return 1
-	end
-	if type(args) == "string" then
-		sh("riverctl " .. command .. " " .. args)
-	else
-		local res = " "
-		for i = 1, #args do
-			res = res .. args[i] .. " "
-		end
-		sh("riverctl " .. command .. res)
-	end
-end
 
 return M
